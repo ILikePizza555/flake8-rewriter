@@ -12,11 +12,13 @@ setuptools.setup(
     author="Isaac 'Izzy' Avram",
     author_email="avrisaac555@gmail.com",
     url="https://github.com/ILikePizza555/flake8-error-to-warning",
-    py_modules=['error2warning'],
+    packages=[
+        "flake8_e2w",
+    ],
     install_requires=requires,
     entry_points={
         "flake8.report": [
-            "WX = flake8_example:ExamplePlugin",
+            "WX = flake8_e2w.error2warning:RewriteFormatter",
         ],
     },
     classifiers=[
