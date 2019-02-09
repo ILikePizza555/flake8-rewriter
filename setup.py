@@ -18,7 +18,7 @@ setuptools.setup(
     install_requires=requires,
     entry_points={
         "flake8.report": [
-            "WX = flake8_e2w.error2warning:RewriteFormatter",
+            "Rewriter = flake8_e2w.error2warning:RewriteFormatter",
         ],
     },
     classifiers=[
