@@ -1,0 +1,3 @@
+[flake8:local-plugins]
+report =
+    R1 = error2warning:RewriteFormatter
