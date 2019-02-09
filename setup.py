@@ -5,20 +5,20 @@ requires = [
 ]
 
 setuptools.setup(
-    name="flake8_error_to_warning",
+    name="flake8_rewriter",
     license="MIT",
     version="1.0.0",
-    description="Flake8 plugin that converts errors to warnings.",
+    description="Flake8 plugin that rewriters error codes.",
     author="Isaac 'Izzy' Avram",
     author_email="avrisaac555@gmail.com",
     url="https://github.com/ILikePizza555/flake8-error-to-warning",
     packages=[
-        "flake8_e2w",
+        "flake8_rewriter",
     ],
     install_requires=requires,
     entry_points={
         "flake8.report": [
-            "rewriter = flake8_e2w.error2warning:RewriteFormatter",
+            "rewriter = flake8_rewriter.rewriter:RewriteFormatter",
         ],
     },
     classifiers=[
