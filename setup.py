@@ -11,7 +11,7 @@ setuptools.setup(
     description="Flake8 plugin that rewriters error codes.",
     author="Isaac 'Izzy' Avram",
     author_email="avrisaac555@gmail.com",
-    url="https://github.com/ILikePizza555/flake8-error-to-warning",
+    url="https://github.com/ILikePizza555/flake8-rewriter",
     packages=[
         "flake8_rewriter",
     ],
