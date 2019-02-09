@@ -1,3 +1,0 @@
-[flake8:local-plugins]
-report =
-    Rewriter = flake8_e2w.error2warning:RewriteFormatter
