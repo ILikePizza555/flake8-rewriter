@@ -3,7 +3,11 @@ from flake8.style_guide import Violation
 
 
 def add_options(option_manager):
-    option_manager.add_option("--replace", action="append", dest="replacements", help="Given <code1>:<code2>, replaces all isntances of <code1> with <code2>.")
+    option_manager.add_option(
+        "--replace",
+        action="append",
+        dest="replacements",
+        help="Given <code1>:<code2>, replaces all instances of <code1> with <code2>.")
 
 
 def rewrite_violation(violation, new_code):
