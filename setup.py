@@ -7,7 +7,7 @@ requires = [
 setuptools.setup(
     name="flake8_error_to_warning",
     license="MIT",
-    version="0.1.0",
+    version="1.0.0",
     description="Flake8 plugin that converts errors to warnings.",
     author="Isaac 'Izzy' Avram",
     author_email="avrisaac555@gmail.com",
