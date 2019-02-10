@@ -2,13 +2,21 @@ from flake8.formatting import default
 from flake8.style_guide import Violation
 
 
+def pop_option(option_manager, option_name):
+    option_manager.parser.remove_option(option_name)
+
+    manager_opt = filter(lambda x: x.short_option_name == option_name or x.long_option_name == option_name, option_manager.options)
+    for opt in manager_opt:
+        option_manager.options.remove(opt)
+    
+    return manager_opt
+
 def add_options(option_manager):
     option_manager.add_option(
         "--replace",
         action="append",
         dest="replacements",
         help="Given <code1>:<code2>, replaces all instances of <code1> with <code2>.")
-
 
 def rewrite_violation(violation, new_code):
     return Violation(
