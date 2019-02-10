@@ -21,13 +21,16 @@ class FakeStr(str):
 
 
 def force_option_callback(option, opt_str, value, parser, *args, **kwargs):
-    new_value = FakeStr(ENTRY_POINT_NAME)
-
     if hasattr(parser.values, "format"):
-        new_value.append(parser.values.format)
-        parser.values.format = new_value
+        # Ignore appending existing values of default or rewriter
+        if parser.values.format == "default" or parser.values.format == ENTRY_POINT_NAME:
+            parser.values.format = FakeStr(ENTRY_POINT_NAME)
+        else:
+            new_value = FakeStr(ENTRY_POINT_NAME)
+            new_value.append(parser.values.format)
+            parser.values.format = new_value
     else:
-        setattr(parser.values, "format", new_value)
+        setattr(parser.values, "format", FakeStr(ENTRY_POINT_NAME))
 
 def add_options(option_manager):
     option_manager.add_option(
