@@ -1,6 +1,18 @@
 from flake8.formatting import default
 from flake8.style_guide import Violation
 
+class FakeStr(str):
+    """
+    Class that acts like a string, but .append adds to an inner dictionary
+    """
+    def __new__(cls, value):
+        obj = super(FakeStr, cls).__new__(cls, value)
+        obj.appends = []
+        return obj
+
+    def append(self, str):
+        self.appends.append(str)
+
 
 def pop_option(option_manager, option_name):
     option_manager.parser.remove_option(option_name)
