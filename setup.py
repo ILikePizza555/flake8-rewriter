@@ -7,7 +7,7 @@ requires = [
 setuptools.setup(
     name="flake8-rewriter",
     license="MIT",
-    version="1.1.0",
+    version="1.2.0",
     description="Flake8 plugin that rewrites error codes.",
     author="Isaac 'Izzy' Avram",
     author_email="avrisaac555@gmail.com",
