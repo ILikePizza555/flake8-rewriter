@@ -65,6 +65,11 @@ class RewriteFormatter(default.SimpleFormatter):
             for k, v in map(lambda s: s.split(":", 1), options.replacements):
                 self.replacements[k] = v
     
+    def after_init(self):
+        """Checks the FakeStr for any custom formats that may have been applied"""
+        if self.options.format.appended:
+            self.error_format = self.options.format.appended[0]
+
     def format(self, error):
         if error.code in self.replacements:
             error = rewrite_violation(error, self.replacements[error.code])
