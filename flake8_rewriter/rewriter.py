@@ -31,6 +31,8 @@ def force_option_callback(option, opt_str, value, parser, *args, **kwargs):
             parser.values.format = new_value
     else:
         setattr(parser.values, "format", FakeStr(ENTRY_POINT_NAME))
+    
+    parser.get_option("--format").action = "append"
 
 def add_options(option_manager):
     option_manager.add_option(
