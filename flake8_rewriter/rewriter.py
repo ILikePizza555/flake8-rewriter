@@ -20,25 +20,14 @@ class FakeStr(str):
         self.appended.append(str)
 
 
-def format_option_callback(option, opt_str, value, parser, *args, **kwargs):
+def force_option_callback(option, opt_str, value, parser, *args, **kwargs):
+    new_value = FakeStr(ENTRY_POINT_NAME)
+
     if hasattr(parser.values, "format"):
-        parser.values.append(value)
+        new_value.append(parser.values.format)
+        parser.values.format = new_value
     else:
-        v = FakeStr(ENTRY_POINT_NAME)
-
-        if value != ENTRY_POINT_NAME:
-            v.append(value)
-
-        setattr(parser.values, "format", v)
-
-def pop_option(option_manager, option_name):
-    option_manager.parser.remove_option(option_name)
-
-    manager_opt = filter(lambda x: x.short_option_name == option_name or x.long_option_name == option_name, option_manager.options)
-    for opt in manager_opt:
-        option_manager.options.remove(opt)
-    
-    return manager_opt
+        setattr(parser.values, "format", new_value)
 
 def add_options(option_manager):
     option_manager.add_option(
@@ -47,14 +36,11 @@ def add_options(option_manager):
         dest="replacements",
         help="Given <code1>:<code2>, replaces all instances of <code1> with <code2>.")
 
-    # Jury-rig the option_manager
-    pop_option(option_manager, "format")
     option_manager.add_option(
-        "--format",
+        "--force-rewriter",
         action="callback",
-        dest="format",
-        callback=format_option_callback,
-        help="Format errors according to the chosen formatter. (jury-rigged)"
+        callback=force_option_callback,
+        help="Force enables rewriter."
     )
 
 def rewrite_violation(violation, new_code):
