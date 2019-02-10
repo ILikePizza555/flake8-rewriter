@@ -1,18 +1,35 @@
 from flake8.formatting import default
 from flake8.style_guide import Violation
 
+
+ENTRY_POINT_NAME = "rewriter"
+
+
 class FakeStr(str):
     """
-    Class that acts like a string, but .append adds to an inner dictionary
+    Class that acts like a string, but .append adds to an inner list.
+    This allows this plugin to record changes to options, but "trick" flake8 into 
+    using rewrite as the formatter.
     """
     def __new__(cls, value):
         obj = super(FakeStr, cls).__new__(cls, value)
-        obj.appends = []
+        obj.appended = []
         return obj
 
     def append(self, str):
-        self.appends.append(str)
+        self.appended.append(str)
 
+
+def format_option_callback(option, opt_str, value, parser, *args, **kwargs):
+    if hasattr(parser.values, "format"):
+        parser.values.append(value)
+    else:
+        v = FakeStr(ENTRY_POINT_NAME)
+
+        if value != ENTRY_POINT_NAME:
+            v.append(value)
+
+        setattr(parser.values, "format", v)
 
 def pop_option(option_manager, option_name):
     option_manager.parser.remove_option(option_name)
@@ -29,6 +46,16 @@ def add_options(option_manager):
         action="append",
         dest="replacements",
         help="Given <code1>:<code2>, replaces all instances of <code1> with <code2>.")
+
+    # Jury-rig the option_manager
+    pop_option(option_manager, "format")
+    option_manager.add_option(
+        "--format",
+        action="callback",
+        dest="format",
+        callback=format_option_callback,
+        help="Format errors according to the chosen formatter. (jury-rigged)"
+    )
 
 def rewrite_violation(violation, new_code):
     return Violation(
